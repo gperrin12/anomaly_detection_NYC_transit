@@ -26,10 +26,11 @@ if [ ${BASH_VERSION::1} -eq 3 ]; then
 fi
 
 if [ ${BASH_VERSION::1} -eq 4 ]; then
-    for i in {7..28..7}
+    d=$(date +%y%m%d -d 160102)
+    for i in {0..105..7}
     do
-        curl -o ./data/mta_$d.csv http://web.mta.info/developers/data/nyct/turnstile/turnstile_$d.txt
-        d=$(date +%y%m%d -d "$d - $i days")
+        d1=$(date +%y%m%d -d "$d + $i days")
+        curl -o ./data/mta_$d1.csv http://web.mta.info/developers/data/nyct/turnstile/turnstile_$d1.txt
     done
 fi
 
@@ -55,8 +56,9 @@ for num in $(seq -w 01 03)
 do
     echo $num
     curl -o ./data/tlc_yellow_2016_$num.csv https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2016\
--0$num.csv
+-$num.csv
 done
+
 
 # Also grab the 2016 Citi Bike Data
 for m in $(seq -w 1 12)
